@@ -1,82 +1,82 @@
-create table if not exists users
+CREATE TABLE if NOT EXISTS users
 (
-    id serial primary key,
-    first_name varchar(55),
-    last_name varchar(55),
-    email varchar(255) unique,
-    password varchar(128),
-    date_create timestamp,
-    date_change timestamp
-);
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(55),
+    last_name VARCHAR(55),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(128),
+    date_create TIMESTAMP,
+    date_change TIMESTAMP
+    );
 
-comment on table users is 'Пользователи интернет магазина';
-comment on column users.id is 'Идентификатор пользователя';
-comment on column users.first_name is 'Имя пользователя';
-comment on column users.last_name is 'Фамилия пользователя';
-comment on column users.email is 'Почта пользователя';
-comment on column users.password is 'Пароль пользователя';
-comment on column users.date_create is 'Дата создания пользователя';
-comment on column users.date_change is 'Дата изменения пользователя';
+COMMENT ON TABLE users IS 'Пользователи интернет магазина';
+COMMENT ON COLUMN users.id IS 'Идентификатор пользователя';
+COMMENT ON COLUMN users.first_name IS 'Имя пользователя';
+COMMENT ON COLUMN users.last_name IS 'Фамилия пользователя';
+COMMENT ON COLUMN users.email IS 'Почта пользователя';
+COMMENT ON COLUMN users.password IS 'Пароль пользователя';
+COMMENT ON COLUMN users.date_create IS 'Дата создания пользователя';
+COMMENT ON COLUMN users.date_change IS 'Дата изменения пользователя';
 
 
-create table if not exists categories
+CREATE TABLE if NOT EXISTS categories
 (
-    id serial primary key,
-    title varchar(128),
-    description text
-);
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(128),
+    description TEXT
+    );
 
-comment on table categories is 'Категории товаров интернет магазина';
-comment on column categories.id is 'Идентификатор категории';
-comment on column categories.title is 'Имя категории';
-comment on column categories.description is 'Описание категории';
+COMMENT ON TABLE categories IS 'Категории товаров интернет магазина';
+COMMENT ON COLUMN categories.id IS 'Идентификатор категории';
+COMMENT ON COLUMN categories.title IS 'Имя категории';
+COMMENT ON COLUMN categories.description IS 'Описание категории';
 
 
-create table if not exists products
+CREATE TABLE if NOT EXISTS products
 (
-    id serial primary key,
-    title varchar(128),
-    description text,
-    price real,
-    count integer,
-    category_id integer references categories(id)
-);
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(128),
+    description TEXT,
+    price REAL,
+    count INTEGER,
+    category_id INTEGER REFERENCES categories(id)
+    );
 
-comment on table products is 'Товары интернет магазина';
-comment on column categories.title is 'Имя товара';
-comment on column categories.description is 'Описание товара';
-comment on column categories.price is 'Цена товара';
-comment on column categories.count is 'Количество товара в наличии';
-comment on column categories.category_id is 'Внешний ключ к категориям (1:n)';
+COMMENT ON TABLE products IS 'Товары интернет магазина';
+COMMENT ON COLUMN products.title IS 'Имя товара';
+COMMENT ON COLUMN products.description IS 'Описание товара';
+COMMENT ON COLUMN products.price IS 'Цена товара';
+COMMENT ON COLUMN products.count IS 'Количество товара в наличии';
+COMMENT ON COLUMN products.category_id IS 'Внешний ключ к категориям (1:n)';
 
 
-create type order_status as enum('Ожидает', 'Выполнен', 'Отменен');
+CREATE TYPE order_status AS ENUM('Ожидает', 'Выполнен', 'Отменен');
 
-create table if not exists orders
+CREATE TABLE if NOT EXISTS orders
 (
-    id serial primary key,
-    id_user integer references users(id),
-    date timestamp,
+    id SERIAL PRIMARY KEY,
+    id_user INTEGER REFERENCES users(id),
+    date TIMESTAMP,
     status order_status
-);
+    );
 
-comment on table orders is 'Заказы интернет магазина';
-comment on column categoordersies.id_user is 'Внешний ключ к пользователям (1:n)';
-comment on column categoordersies.date is 'Дата заказа';
-comment on column categoordersies.status is 'Статус заказа';
+COMMENT ON TABLE orders IS 'Заказы интернет магазина';
+COMMENT ON COLUMN orders.id_user IS 'Внешний ключ к пользователям (1:n)';
+COMMENT ON COLUMN orders.date IS 'Дата заказа';
+COMMENT ON COLUMN orders.status IS 'Статус заказа';
 
 
-create table if not exists order_items
+CREATE TABLE if NOT EXISTS order_items
 (
-    id serial primary key,
-    order_id integer references orders(id),
-    product_id integer references products(id),
-    count integer,
-    price real
-);
+    id SERIAL PRIMARY KEY,
+    order_id INTEGER REFERENCES orders(id),
+    product_id INTEGER REFERENCES products(id),
+    count INTEGER,
+    price REAL
+    );
 
-comment on table order_items is 'Содержимое заказа интернет магазина';
-comment on column order_items.order_id is 'Внешний ключ к заказам (1:n)';
-comment on column order_items.product_id is 'Внешний ключ к товарам (1:n)';
-comment on column order_items.count is 'Количество товаров в заказе';
-comment on column order_items.count is 'Цена во время заказа';
+COMMENT ON TABLE order_items IS 'Содержимое заказа интернет магазина';
+COMMENT ON COLUMN order_items.order_id IS 'Внешний ключ к заказам (1:n)';
+COMMENT ON COLUMN order_items.product_id IS 'Внешний ключ к товарам (1:n)';
+COMMENT ON COLUMN order_items.count IS 'Количество товаров в заказе';
+COMMENT ON COLUMN order_items.count IS 'Цена во время заказа';
